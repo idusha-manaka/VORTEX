@@ -12,9 +12,44 @@ document.addEventListener('DOMContentLoaded', () => {
     }, 2500);
 
     if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Vortex SW Registered'))
-            .catch(err => console.error('SW Error:', err));
+        navigator.serviceWorker.register('./sw.js').then((reg) => {
+            console.log('Vortex SW Registered');
+
+            // Check for new SW waiting
+            reg.addEventListener('updatefound', () => {
+                const newWorker = reg.installing;
+                newWorker.addEventListener('statechange', () => {
+                    if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                        // New version is ready → show toast
+                        showUpdateToast();
+                    }
+                });
+            });
+        }).catch(err => console.error('SW Error:', err));
+
+        // When SW activates new version, reload the page
+        let refreshing = false;
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+            if (!refreshing) { refreshing = true; window.location.reload(); }
+        });
+    }
+
+    function showUpdateToast() {
+        const toast = document.createElement('div');
+        toast.id = 'update-toast';
+        toast.innerHTML = `
+            <span>🚀 New version available!</span>
+            <button id="update-now-btn">UPDATE NOW</button>
+        `;
+        document.body.appendChild(toast);
+
+        document.getElementById('update-now-btn').addEventListener('click', () => {
+            navigator.serviceWorker.controller?.postMessage('SKIP_WAITING');
+            toast.remove();
+        });
+
+        // Auto-dismiss after 10 seconds
+        setTimeout(() => toast?.remove(), 10000);
     }
 
     let isActive = false;
