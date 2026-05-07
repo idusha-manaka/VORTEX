@@ -157,6 +157,19 @@ header {
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     text-shadow: 0 0 30px rgba(0, 242, 255, 0.3);
+    margin-top: 0.5rem;
+}
+
+.version-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    background: var(--glass);
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    font-size: 0.6rem;
+    font-weight: 800;
+    border-radius: 4px;
+    letter-spacing: 0.1rem;
 }
 
 .subtitle {
