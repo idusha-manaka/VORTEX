@@ -26,7 +26,7 @@
 
     <main class="container">
         <header>
-            <div class="version-badge">v1.5.0 - TILE SPIN UNLOCKED</div>
+            <div class="version-badge">v1.7.0 - MASSAGE + TILE SPIN</div>
             <h1 class="logo">VORTEX</h1>
             <p class="subtitle">Precision Rotation Control</p>
         </header>
@@ -44,6 +44,7 @@
         <section class="controls">
             <div class="mode-selector">
                 <button class="mode-btn active" data-mode="tilespin">🌀 TILE SPIN</button>
+                <button class="mode-btn" data-mode="massage">💆 MASSAGE</button>
                 <button class="mode-btn" data-mode="cycloramic">CYCLORAMIC</button>
                 <button class="mode-btn" data-mode="walker">TABLE WALKER</button>
                 <button class="mode-btn" data-mode="continuous">CONTINUOUS</button>
@@ -51,6 +52,21 @@
                 <button class="mode-btn" data-mode="vortex">VORTEX SYNC</button>
                 <button class="mode-btn" data-mode="turbo">TURBO BOOST</button>
                 <button class="mode-btn" data-mode="resonance">RESONANCE</button>
+            </div>
+
+            <!-- MASSAGE MODE Panel -->
+            <div class="info-card massage-panel" style="display:none;">
+                <h3>💆 Massage Mode</h3>
+                <p style="margin-bottom:1rem; font-size:0.8rem; color:var(--text-dim);">Hold phone against body. Select intensity.</p>
+                <div class="massage-grid">
+                    <button class="massage-btn active" data-massage="neck">🌊 Neck Wave</button>
+                    <button class="massage-btn" data-massage="shoulder">💪 Deep Shoulder</button>
+                    <button class="massage-btn" data-massage="hand">✋ Hand Pulse</button>
+                    <button class="massage-btn" data-massage="asmr">✨ ASMR Tingle</button>
+                    <button class="massage-btn" data-massage="relax">😌 Deep Relax</button>
+                    <button class="massage-btn" data-massage="heartbeat">❤️ Heartbeat</button>
+                </div>
+                <p class="warning" style="color:var(--accent); font-size:0.7rem; margin-top:1rem;">⚠️ Hold device gently. Do not press hard against skin.</p>
             </div>
 
             <!-- TILE SPIN Instructions (default) -->
@@ -113,7 +129,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 VORTEX LABS. v1.5.0 Tile Spin Build</p>
+        <p>&copy; 2026 VORTEX LABS. v1.6.0 Massage Build</p>
     </footer>
 
     <script src="script.js"></script>

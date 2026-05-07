@@ -6,41 +6,47 @@ document.addEventListener('DOMContentLoaded', () => {
     const modeButtons = document.querySelectorAll('.mode-btn');
     const btnText = mainToggle.querySelector('.btn-text');
 
-    // Splash Screen Dismissal
     setTimeout(() => {
         splash.classList.add('hidden');
         document.body.style.overflow = 'auto';
     }, 2500);
 
-    // Register Service Worker for PWA
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('./sw.js')
-            .then(() => console.log('Vortex Service Worker Registered'))
-            .catch(err => console.error('SW Registration Failed:', err));
+            .then(() => console.log('Vortex SW Registered'))
+            .catch(err => console.error('SW Error:', err));
     }
 
     let isActive = false;
     let currentMode = 'tilespin';
     let walkerDirection = 'forward';
+    let massageType = 'neck';
     let vibrationInterval = null;
 
-    // ─── TILE SPIN PATTERN ────────────────────────────────────────────────────
-    // Key insight: A16 motor naturally creates CCW (left) rotation on smooth surfaces.
-    // Strategy: Long sustained bursts (300-400ms) with VERY short pauses (20-30ms).
-    // Long burst = motor builds momentum. Short pause = doesn't lose spin.
-    // This is tuned to keep the phone spinning continuously without stopping.
+    // ── MASSAGE PATTERNS ──────────────────────────────────────────────────────
+    const massagePatterns = {
+        // Neck Wave: Gentle rolling waves - feels like kneading
+        neck:       [100, 50, 150, 50, 200, 100, 150, 50, 100, 50, 80, 100],
+        // Deep Shoulder: Strong slow pulses - deep tissue feel
+        shoulder:   [500, 200, 500, 200, 500, 200, 300, 300, 500, 200],
+        // Hand Pulse: Rapid light taps - finger/palm stimulation
+        hand:       [50, 30, 50, 30, 50, 30, 50, 80, 50, 30, 50, 30],
+        // ASMR Tingle: Ultra-gentle micro-vibrations
+        asmr:       [20, 80, 20, 80, 20, 150, 20, 80, 20, 80, 20, 300],
+        // Deep Relax: Slow rhythmic waves, increasing then decreasing
+        relax:      [200, 200, 300, 200, 400, 200, 500, 200, 400, 200, 300, 200, 200, 400],
+        // Heartbeat: Two-beat rhythm like a real heart
+        heartbeat:  [80, 80, 150, 500, 80, 80, 150, 500, 80, 80, 150, 500],
+    };
+
+    // ── TILE SPIN PATTERN ─────────────────────────────────────────────────────
     const tilespinPattern = [
-        400, 25,  // Long burst → short breath
-        400, 25,
-        350, 20,
-        400, 25,
-        350, 20,
-        400, 25,
-        300, 20,
-        400, 25,
+        400, 25, 400, 25, 350, 20,
+        400, 25, 350, 20, 400, 25,
+        300, 20, 400, 25,
     ];
 
-    // ─── WALKER PATTERNS ─────────────────────────────────────────────────────
+    // ── WALKER PATTERNS ───────────────────────────────────────────────────────
     const walkerPatterns = {
         forward:  [200, 20, 200, 20, 200, 20, 80, 80, 80, 80],
         backward: [80, 80, 80, 80, 200, 20, 200, 20, 200, 20],
@@ -51,17 +57,49 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const patterns = {
         tilespin:  tilespinPattern,
+        massage:   massagePatterns.neck,
         walker:    walkerPatterns.forward,
-        cycloramic:[150, 50, 100, 30, 150, 50, 80, 30, 150, 50, 100, 30, 150, 50, 80, 30,
-                    150, 50, 100, 30, 150, 50, 80, 30, 150, 50, 100, 30, 150, 50, 80, 30],
+        cycloramic:[150,50,100,30,150,50,80,30,150,50,100,30,150,50,80,30,
+                    150,50,100,30,150,50,80,30,150,50,100,30,150,50,80,30],
         continuous:[1000],
-        pulse:     [100, 50, 100, 50, 100, 50, 100, 50],
-        vortex:    [200, 100, 150, 80, 100, 50, 50, 30, 20, 10, 50, 100],
-        turbo:     [500, 100, 10, 10, 10, 10, 500, 100, 10, 10, 10, 10],
-        resonance: [50, 50, 100, 100, 150, 150, 200, 200, 150, 150, 100, 100, 50, 50],
+        pulse:     [100,50,100,50,100,50,100,50],
+        vortex:    [200,100,150,80,100,50,50,30,20,10,50,100],
+        turbo:     [500,100,10,10,10,10,500,100,10,10,10,10],
+        resonance: [50,50,100,100,150,150,200,200,150,150,100,100,50,50],
     };
 
-    // ─── D-PAD CONTROLS ──────────────────────────────────────────────────────
+    // ── MASSAGE SUB-BUTTONS ───────────────────────────────────────────────────
+    const massageBtns = document.querySelectorAll('.massage-btn');
+    massageBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            massageBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            massageType = btn.dataset.massage;
+            patterns.massage = massagePatterns[massageType];
+
+            // Update status badge label
+            const labels = {
+                neck:'🌊 NECK WAVE', shoulder:'💪 DEEP SHOULDER',
+                hand:'✋ HAND PULSE', asmr:'✨ ASMR', relax:'😌 RELAX', heartbeat:'❤️ HEARTBEAT'
+            };
+            if (isActive) {
+                statusBadge.textContent = labels[massageType] || 'MASSAGE ACTIVE';
+                navigator.vibrate(0);
+                clearInterval(vibrationInterval);
+                setTimeout(() => {
+                    executeVibration();
+                    vibrationInterval = setInterval(executeVibration, getMassageLoop());
+                }, 100);
+            }
+        });
+    });
+
+    function getMassageLoop() {
+        const loops = { neck:1500, shoulder:3000, hand:800, asmr:2000, relax:4000, heartbeat:2500 };
+        return loops[massageType] || 2000;
+    }
+
+    // ── D-PAD CONTROLS ────────────────────────────────────────────────────────
     const dpadBtns = {
         up:    document.getElementById('dpad-up'),
         down:  document.getElementById('dpad-down'),
@@ -69,7 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
         right: document.getElementById('dpad-right'),
         spin:  document.getElementById('dpad-spin'),
     };
-
     const directionMap = { up:'forward', down:'backward', left:'left', right:'right', spin:'spin' };
 
     Object.entries(dpadBtns).forEach(([key, btn]) => {
@@ -79,19 +116,22 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('dpad-active');
             walkerDirection = directionMap[key];
             patterns.walker = walkerPatterns[walkerDirection];
-
             if (isActive) {
                 navigator.vibrate(0);
                 clearInterval(vibrationInterval);
-                setTimeout(() => {
-                    executeVibration();
-                    vibrationInterval = setInterval(executeVibration, 1200);
-                }, 100);
+                setTimeout(() => { executeVibration(); vibrationInterval = setInterval(executeVibration, 1200); }, 100);
             }
         });
     });
 
-    // ─── MODE SELECTION ───────────────────────────────────────────────────────
+    // ── MODE SELECTION ────────────────────────────────────────────────────────
+    const cardMap = {
+        tilespin:   '.tilespin-instructions',
+        massage:    '.massage-panel',
+        walker:     '.walker-panel',
+        cycloramic: '.cycloramic-instructions',
+    };
+
     modeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             if (isActive) stopVibration();
@@ -99,27 +139,37 @@ document.addEventListener('DOMContentLoaded', () => {
             btn.classList.add('active');
             currentMode = btn.dataset.mode;
 
-            // Show/hide instruction cards
-            const cards = {
-                tilespin:  document.querySelector('.tilespin-instructions'),
-                walker:    document.querySelector('.walker-panel'),
-                cycloramic:document.querySelector('.cycloramic-instructions'),
-                general:   document.querySelector('.general-instructions'),
-            };
-            Object.values(cards).forEach(c => c && (c.style.display = 'none'));
-
-            if (currentMode === 'tilespin')    cards.tilespin.style.display   = 'block';
-            else if (currentMode === 'walker')      cards.walker.style.display     = 'block';
-            else if (currentMode === 'cycloramic')  cards.cycloramic.style.display = 'block';
-            else                                    cards.general.style.display    = 'block';
+            // Hide all cards
+            document.querySelectorAll('.info-card').forEach(c => c.style.display = 'none');
+            // Show relevant card
+            const selector = cardMap[currentMode] || '.general-instructions';
+            const card = document.querySelector(selector);
+            if (card) card.style.display = 'block';
         });
     });
 
-    // ─── MAIN TOGGLE ─────────────────────────────────────────────────────────
+    // ── MAIN TOGGLE ───────────────────────────────────────────────────────────
     mainToggle.addEventListener('click', () => {
         if (!isActive) startVibration();
         else stopVibration();
     });
+
+    function getLoopInterval() {
+        if (currentMode === 'massage')    return getMassageLoop();
+        if (currentMode === 'tilespin')   return 2500;
+        if (currentMode === 'walker')     return 1200;
+        if (currentMode === 'cycloramic') return 1500;
+        if (currentMode === 'continuous') return 1000;
+        return 2000;
+    }
+
+    function getMassageStatusLabel() {
+        const labels = {
+            neck:'🌊 NECK WAVE', shoulder:'💪 SHOULDER', hand:'✋ HAND PULSE',
+            asmr:'✨ ASMR MODE', relax:'😌 DEEP RELAX', heartbeat:'❤️ HEARTBEAT'
+        };
+        return labels[massageType] || 'MASSAGE ACTIVE';
+    }
 
     function startVibration() {
         if (!("vibrate" in navigator)) {
@@ -129,19 +179,11 @@ document.addEventListener('DOMContentLoaded', () => {
         isActive = true;
         mainToggle.classList.add('active');
         visualOrb.classList.add('active');
-        statusBadge.textContent = 'VORTEX ACTIVE';
+        statusBadge.textContent = currentMode === 'massage' ? getMassageStatusLabel() : 'VORTEX ACTIVE';
         btnText.textContent = 'HALT VORTEX';
 
         executeVibration();
-
-        // Tile Spin: re-trigger every 2500ms (pattern total duration ~3350ms so overlap is fine)
-        const loopInterval =
-            currentMode === 'tilespin'   ? 2500 :
-            currentMode === 'walker'     ? 1200 :
-            currentMode === 'cycloramic' ? 1500 :
-            currentMode === 'continuous' ? 1000 : 2000;
-
-        vibrationInterval = setInterval(executeVibration, loopInterval);
+        vibrationInterval = setInterval(executeVibration, getLoopInterval());
     }
 
     function stopVibration() {
@@ -156,13 +198,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function executeVibration() {
         if (!isActive) return;
-        const pattern = currentMode === 'walker'
-            ? walkerPatterns[walkerDirection]
-            : patterns[currentMode];
+        let pattern;
+        if (currentMode === 'walker')   pattern = walkerPatterns[walkerDirection];
+        else if (currentMode === 'massage') pattern = massagePatterns[massageType];
+        else pattern = patterns[currentMode];
         navigator.vibrate(pattern);
     }
 
-    // Safety: Stop if tab is hidden
     document.addEventListener("visibilitychange", () => {
         if (document.hidden && isActive) stopVibration();
     });

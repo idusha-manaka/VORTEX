@@ -460,3 +460,42 @@ header {
 }
 .mode-selector::-webkit-scrollbar { display: none; }
 .mode-btn { white-space: nowrap; }
+
+/* ── MASSAGE GRID ────────────────────────────────────────────────── */
+.massage-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.6rem;
+    margin: 0.5rem 0;
+}
+
+.massage-btn {
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-dim);
+    padding: 0.8rem 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 700;
+    font-family: 'Outfit', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s;
+    backdrop-filter: blur(10px);
+    line-height: 1.4;
+}
+
+.massage-btn:active {
+    transform: scale(0.95);
+}
+
+.massage-btn.active {
+    background: rgba(0, 242, 255, 0.12);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 16px rgba(0, 242, 255, 0.25);
+}
+
+/* ── HEARTBEAT PULSE ANIMATION when active ──────────────────────── */
+.orb.active {
+    animation: vibrate 0.1s infinite linear;
+}
