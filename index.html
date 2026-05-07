@@ -26,7 +26,7 @@
 
     <main class="container">
         <header>
-            <div class="version-badge">v1.3.0 - A16 OPTIMIZED</div>
+            <div class="version-badge">v1.4.0 - A16 OPTIMIZED</div>
             <h1 class="logo">VORTEX</h1>
             <p class="subtitle">Precision Rotation Control</p>
         </header>
@@ -43,7 +43,8 @@
 
         <section class="controls">
             <div class="mode-selector">
-                <button class="mode-btn active" data-mode="cycloramic">CYCLORAMIC</button>
+                <button class="mode-btn" data-mode="cycloramic">CYCLORAMIC</button>
+                <button class="mode-btn active" data-mode="walker">TABLE WALKER</button>
                 <button class="mode-btn" data-mode="continuous">CONTINUOUS</button>
                 <button class="mode-btn" data-mode="pulse">RAPID PULSE</button>
                 <button class="mode-btn" data-mode="vortex">VORTEX SYNC</button>
@@ -51,14 +52,28 @@
                 <button class="mode-btn" data-mode="resonance">RESONANCE</button>
             </div>
 
-            <div class="action-area">
-                <button id="mainToggle" class="main-trigger">
-                    <span class="btn-text">IGNITE VORTEX</span>
-                    <div class="btn-ripple"></div>
-                </button>
+            <!-- TABLE WALKER Direction Pad -->
+            <div class="info-card walker-panel" style="display:block;">
+                <h3>🚶 Table Walker Mode</h3>
+                <p style="margin-bottom:1rem; font-size:0.8rem; color:var(--text-dim);">Place phone flat on glass. Select direction, then IGNITE.</p>
+                <div class="dpad">
+                    <div class="dpad-row">
+                        <button class="dpad-btn" id="dpad-up">▲</button>
+                    </div>
+                    <div class="dpad-row">
+                        <button class="dpad-btn" id="dpad-left">◀</button>
+                        <button class="dpad-btn dpad-center" id="dpad-spin">↺</button>
+                        <button class="dpad-btn" id="dpad-right">▶</button>
+                    </div>
+                    <div class="dpad-row">
+                        <button class="dpad-btn" id="dpad-down">▼</button>
+                    </div>
+                </div>
+                <p class="warning" style="color:var(--accent); font-size:0.7rem; margin-top:1rem;">⚠️ Glass/Marble surface + No case = Best results</p>
             </div>
 
-            <div class="info-card cycloramic-instructions">
+            <!-- CYCLORAMIC Instructions -->
+            <div class="info-card cycloramic-instructions" style="display:none;">
                 <h3>🔄 Cycloramic Mode Instructions</h3>
                 <ol style="text-align: left; margin: 1rem 0; padding-left: 1.5rem;">
                     <li><strong>Stand your phone vertically</strong> (charging port down)</li>
@@ -70,14 +85,22 @@
                 <p class="warning" style="color: var(--accent); font-weight: bold;">⚠️ Samsung A16 optimized pattern. Results vary by surface.</p>
             </div>
 
-            <div class="info-card general-instructions" style="display: none;">
+            <!-- General Instructions -->
+            <div class="info-card general-instructions" style="display:none;">
                 <p>Place your device on a <strong>smooth, flat surface</strong> (like glass) for optimal vibration results.</p>
+            </div>
+
+            <div class="action-area">
+                <button id="mainToggle" class="main-trigger">
+                    <span class="btn-text">IGNITE VORTEX</span>
+                    <div class="btn-ripple"></div>
+                </button>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 VORTEX LABS. v1.3.0 A16 Build</p>
+        <p>&copy; 2026 VORTEX LABS. v1.4.0 A16 Build</p>
     </footer>
 
     <script src="script.js"></script>

@@ -377,3 +377,86 @@ header {
         height: 150px;
     }
 }
+
+/* ── Table Walker D-PAD ─────────────────────────────────────────── */
+.info-card h3 {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 0.5rem;
+    letter-spacing: 0.05rem;
+}
+
+.info-card ol {
+    color: var(--text-dim);
+    font-size: 0.82rem;
+}
+
+.info-card li {
+    margin-bottom: 0.3rem;
+}
+
+.dpad {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
+    margin: 1rem auto;
+    width: fit-content;
+}
+
+.dpad-row {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+}
+
+.dpad-btn {
+    width: 62px;
+    height: 62px;
+    background: var(--glass);
+    border: 1px solid var(--glass-border);
+    border-radius: 12px;
+    color: var(--text-dim);
+    font-size: 1.3rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(10px);
+}
+
+.dpad-btn:active {
+    transform: scale(0.9);
+}
+
+.dpad-btn.dpad-active {
+    background: rgba(0, 242, 255, 0.15);
+    border-color: var(--primary);
+    color: var(--primary);
+    box-shadow: 0 0 20px rgba(0, 242, 255, 0.3);
+}
+
+.dpad-center {
+    background: rgba(112, 0, 255, 0.15);
+    border-color: var(--secondary);
+    color: var(--secondary);
+    font-size: 1.5rem;
+}
+
+.dpad-center.dpad-active {
+    background: rgba(112, 0, 255, 0.3);
+    border-color: var(--secondary);
+    color: #fff;
+    box-shadow: 0 0 20px rgba(112, 0, 255, 0.5);
+}
+
+/* Mode selector scrollable on small screens */
+.mode-selector {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+}
+.mode-selector::-webkit-scrollbar { display: none; }
+.mode-btn { white-space: nowrap; }
