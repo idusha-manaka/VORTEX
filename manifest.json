@@ -1,0 +1,17 @@
+{
+  "name": "Vortex Phone Rotator",
+  "short_name": "Vortex",
+  "description": "Experiment with phone rotation using advanced vibration patterns.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#050505",
+  "theme_color": "#7000ff",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/575/575454.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

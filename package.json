@@ -1,0 +1,12 @@
+{
+  "name": "vortex-vibrator",
+  "version": "1.0.0",
+  "description": "Phone rotation experiment via vibration",
+  "main": "index.html",
+  "scripts": {
+    "start": "npx -y serve ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}

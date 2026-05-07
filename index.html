@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vortex | Phone Rotation Controller</title>
+    <meta name="description" content="A premium phone vibration tool designed to rotate your device using advanced vibration patterns.">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#7000ff">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div id="splash" class="splash-screen">
+        <div class="splash-logo">VORTEX</div>
+        <div class="loader"></div>
+    </div>
+
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <main class="container">
+        <header>
+            <h1 class="logo">VORTEX</h1>
+            <p class="subtitle">Precision Rotation Control</p>
+        </header>
+
+        <section class="vortex-visual">
+            <div class="orb-container">
+                <div class="orb" id="visualOrb">
+                    <div class="inner-ring"></div>
+                    <div class="core-glow"></div>
+                </div>
+            </div>
+            <div class="status-badge" id="statusBadge">READY</div>
+        </section>
+
+        <section class="controls">
+            <div class="mode-selector">
+                <button class="mode-btn active" data-mode="continuous">CONTINUOUS</button>
+                <button class="mode-btn" data-mode="pulse">RAPID PULSE</button>
+                <button class="mode-btn" data-mode="vortex">VORTEX SYNC</button>
+                <button class="mode-btn" data-mode="stand">STAND MODE</button>
+            </div>
+
+            <div class="action-area">
+                <button id="mainToggle" class="main-trigger">
+                    <span class="btn-text">IGNITE VORTEX</span>
+                    <div class="btn-ripple"></div>
+                </button>
+            </div>
+
+            <div class="info-card">
+                <p>Place your device on a <strong>smooth, flat surface</strong> (like glass) for optimal 360° rotation results.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <p>&copy; 2026 VORTEX LABS. For experimental use only.</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
