@@ -26,7 +26,7 @@
 
     <main class="container">
         <header>
-            <div class="version-badge">v1.4.0 - A16 OPTIMIZED</div>
+            <div class="version-badge">v1.5.0 - TILE SPIN UNLOCKED</div>
             <h1 class="logo">VORTEX</h1>
             <p class="subtitle">Precision Rotation Control</p>
         </header>
@@ -43,8 +43,9 @@
 
         <section class="controls">
             <div class="mode-selector">
+                <button class="mode-btn active" data-mode="tilespin">🌀 TILE SPIN</button>
                 <button class="mode-btn" data-mode="cycloramic">CYCLORAMIC</button>
-                <button class="mode-btn active" data-mode="walker">TABLE WALKER</button>
+                <button class="mode-btn" data-mode="walker">TABLE WALKER</button>
                 <button class="mode-btn" data-mode="continuous">CONTINUOUS</button>
                 <button class="mode-btn" data-mode="pulse">RAPID PULSE</button>
                 <button class="mode-btn" data-mode="vortex">VORTEX SYNC</button>
@@ -52,8 +53,20 @@
                 <button class="mode-btn" data-mode="resonance">RESONANCE</button>
             </div>
 
-            <!-- TABLE WALKER Direction Pad -->
-            <div class="info-card walker-panel" style="display:block;">
+            <!-- TILE SPIN Instructions (default) -->
+            <div class="info-card tilespin-instructions" style="display:block;">
+                <h3>🌀 Tile Spin Mode — A16 CCW Optimized</h3>
+                <ol style="text-align:left; margin:1rem 0; padding-left:1.5rem;">
+                    <li>Phone ගේ Cover <strong>ගලවන්න</strong></li>
+                    <li>Phone <strong>flat</strong> තියන්න (screen up)</li>
+                    <li>යටින් <strong>book/object</strong> කෑල්ලක් දාලා surface friction <strong>අඩු</strong> කරන්න</li>
+                    <li>Tile/Glass surface <strong>ලස්සනට smooth</strong> ඕනෙ</li>
+                    <li>IGNITE කරලා phone <strong>touch කරන්නෙ නැතිව</strong> බලන්න</li>
+                </ol>
+                <p style="color:var(--primary); font-weight:bold; font-size:0.8rem;">💡 Phone naturally goes LEFT? Perfect! This mode amplifies that.</p>
+            </div>
+
+            <div class="info-card walker-panel" style="display:none;">
                 <h3>🚶 Table Walker Mode</h3>
                 <p style="margin-bottom:1rem; font-size:0.8rem; color:var(--text-dim);">Place phone flat on glass. Select direction, then IGNITE.</p>
                 <div class="dpad">
@@ -100,7 +113,7 @@
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 VORTEX LABS. v1.4.0 A16 Build</p>
+        <p>&copy; 2026 VORTEX LABS. v1.5.0 Tile Spin Build</p>
     </footer>
 
     <script src="script.js"></script>

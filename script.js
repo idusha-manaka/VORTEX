@@ -20,42 +20,45 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     let isActive = false;
-    let currentMode = 'walker';
-    let walkerDirection = 'forward'; // default walker direction
+    let currentMode = 'tilespin';
+    let walkerDirection = 'forward';
     let vibrationInterval = null;
 
-    // ─── TABLE WALKER PATTERNS ───────────────────────────────────────────────
-    // Asymmetric bursts: Heavy-side vibration pushes phone in opposite direction.
-    // Pattern = [vibrate_ms, pause_ms, ...]
+    // ─── TILE SPIN PATTERN ────────────────────────────────────────────────────
+    // Key insight: A16 motor naturally creates CCW (left) rotation on smooth surfaces.
+    // Strategy: Long sustained bursts (300-400ms) with VERY short pauses (20-30ms).
+    // Long burst = motor builds momentum. Short pause = doesn't lose spin.
+    // This is tuned to keep the phone spinning continuously without stopping.
+    const tilespinPattern = [
+        400, 25,  // Long burst → short breath
+        400, 25,
+        350, 20,
+        400, 25,
+        350, 20,
+        400, 25,
+        300, 20,
+        400, 25,
+    ];
+
+    // ─── WALKER PATTERNS ─────────────────────────────────────────────────────
     const walkerPatterns = {
-        // Forward: stronger burst at start → momentum pushes phone forward
         forward:  [200, 20, 200, 20, 200, 20, 80, 80, 80, 80],
-        // Backward: long pause first then burst → phone slides back
         backward: [80, 80, 80, 80, 200, 20, 200, 20, 200, 20],
-        // Left: escalating short bursts biased asymmetrically
         left:     [300, 10, 50, 100, 300, 10, 50, 100, 300, 10],
-        // Right: mirror of left
         right:    [50, 100, 300, 10, 50, 100, 300, 10, 50, 100],
-        // Spin: alternating heavy/light to create rotational torque
         spin:     [200, 30, 80, 30, 200, 30, 80, 30, 200, 30, 80, 30],
     };
 
     const patterns = {
-        // Walker uses walkerPatterns, so just a placeholder here
-        walker: walkerPatterns.forward,
-
-        // CYCLORAMIC MODE - Samsung A16 Optimized for Standing Rotation
-        cycloramic: [
-            150, 50, 100, 30, 150, 50, 80, 30,
-            150, 50, 100, 30, 150, 50, 80, 30,
-            150, 50, 100, 30, 150, 50, 80, 30,
-            150, 50, 100, 30, 150, 50, 80, 30,
-        ],
-        continuous: [1000],
-        pulse:      [100, 50, 100, 50, 100, 50, 100, 50],
-        vortex:     [200, 100, 150, 80, 100, 50, 50, 30, 20, 10, 50, 100],
-        turbo:      [500, 100, 10, 10, 10, 10, 500, 100, 10, 10, 10, 10],
-        resonance:  [50, 50, 100, 100, 150, 150, 200, 200, 150, 150, 100, 100, 50, 50],
+        tilespin:  tilespinPattern,
+        walker:    walkerPatterns.forward,
+        cycloramic:[150, 50, 100, 30, 150, 50, 80, 30, 150, 50, 100, 30, 150, 50, 80, 30,
+                    150, 50, 100, 30, 150, 50, 80, 30, 150, 50, 100, 30, 150, 50, 80, 30],
+        continuous:[1000],
+        pulse:     [100, 50, 100, 50, 100, 50, 100, 50],
+        vortex:    [200, 100, 150, 80, 100, 50, 50, 30, 20, 10, 50, 100],
+        turbo:     [500, 100, 10, 10, 10, 10, 500, 100, 10, 10, 10, 10],
+        resonance: [50, 50, 100, 100, 150, 150, 200, 200, 150, 150, 100, 100, 50, 50],
     };
 
     // ─── D-PAD CONTROLS ──────────────────────────────────────────────────────
@@ -67,25 +70,16 @@ document.addEventListener('DOMContentLoaded', () => {
         spin:  document.getElementById('dpad-spin'),
     };
 
-    const directionMap = {
-        up:    'forward',
-        down:  'backward',
-        left:  'left',
-        right: 'right',
-        spin:  'spin',
-    };
+    const directionMap = { up:'forward', down:'backward', left:'left', right:'right', spin:'spin' };
 
     Object.entries(dpadBtns).forEach(([key, btn]) => {
         if (!btn) return;
         btn.addEventListener('click', () => {
-            // Highlight selected direction
             Object.values(dpadBtns).forEach(b => b && b.classList.remove('dpad-active'));
             btn.classList.add('dpad-active');
-
             walkerDirection = directionMap[key];
             patterns.walker = walkerPatterns[walkerDirection];
 
-            // If already running, restart with new pattern
             if (isActive) {
                 navigator.vibrate(0);
                 clearInterval(vibrationInterval);
@@ -101,15 +95,23 @@ document.addEventListener('DOMContentLoaded', () => {
     modeButtons.forEach(btn => {
         btn.addEventListener('click', () => {
             if (isActive) stopVibration();
-
             modeButtons.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             currentMode = btn.dataset.mode;
 
             // Show/hide instruction cards
-            document.querySelector('.walker-panel').style.display          = currentMode === 'walker'     ? 'block' : 'none';
-            document.querySelector('.cycloramic-instructions').style.display = currentMode === 'cycloramic' ? 'block' : 'none';
-            document.querySelector('.general-instructions').style.display    = !['walker','cycloramic'].includes(currentMode) ? 'block' : 'none';
+            const cards = {
+                tilespin:  document.querySelector('.tilespin-instructions'),
+                walker:    document.querySelector('.walker-panel'),
+                cycloramic:document.querySelector('.cycloramic-instructions'),
+                general:   document.querySelector('.general-instructions'),
+            };
+            Object.values(cards).forEach(c => c && (c.style.display = 'none'));
+
+            if (currentMode === 'tilespin')    cards.tilespin.style.display   = 'block';
+            else if (currentMode === 'walker')      cards.walker.style.display     = 'block';
+            else if (currentMode === 'cycloramic')  cards.cycloramic.style.display = 'block';
+            else                                    cards.general.style.display    = 'block';
         });
     });
 
@@ -124,7 +126,6 @@ document.addEventListener('DOMContentLoaded', () => {
             alert("Vibration API not supported on this device/browser.");
             return;
         }
-
         isActive = true;
         mainToggle.classList.add('active');
         visualOrb.classList.add('active');
@@ -133,7 +134,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         executeVibration();
 
+        // Tile Spin: re-trigger every 2500ms (pattern total duration ~3350ms so overlap is fine)
         const loopInterval =
+            currentMode === 'tilespin'   ? 2500 :
             currentMode === 'walker'     ? 1200 :
             currentMode === 'cycloramic' ? 1500 :
             currentMode === 'continuous' ? 1000 : 2000;
@@ -145,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
         isActive = false;
         navigator.vibrate(0);
         if (vibrationInterval) clearInterval(vibrationInterval);
-
         mainToggle.classList.remove('active');
         visualOrb.classList.remove('active');
         statusBadge.textContent = 'READY';
