@@ -26,7 +26,7 @@
 
     <main class="container">
         <header>
-            <div class="version-badge">v1.2.3</div>
+            <div class="version-badge">v1.3.0 - A16 OPTIMIZED</div>
             <h1 class="logo">VORTEX</h1>
             <p class="subtitle">Precision Rotation Control</p>
         </header>
@@ -43,10 +43,10 @@
 
         <section class="controls">
             <div class="mode-selector">
-                <button class="mode-btn active" data-mode="continuous">CONTINUOUS</button>
+                <button class="mode-btn active" data-mode="cycloramic">CYCLORAMIC</button>
+                <button class="mode-btn" data-mode="continuous">CONTINUOUS</button>
                 <button class="mode-btn" data-mode="pulse">RAPID PULSE</button>
                 <button class="mode-btn" data-mode="vortex">VORTEX SYNC</button>
-                <button class="mode-btn" data-mode="stand">STAND MODE</button>
                 <button class="mode-btn" data-mode="turbo">TURBO BOOST</button>
                 <button class="mode-btn" data-mode="resonance">RESONANCE</button>
             </div>
@@ -58,14 +58,26 @@
                 </button>
             </div>
 
-            <div class="info-card">
-                <p>Place your device on a <strong>smooth, flat surface</strong> (like glass) for optimal 360° rotation results.</p>
+            <div class="info-card cycloramic-instructions">
+                <h3>🔄 Cycloramic Mode Instructions</h3>
+                <ol style="text-align: left; margin: 1rem 0; padding-left: 1.5rem;">
+                    <li><strong>Stand your phone vertically</strong> (charging port down)</li>
+                    <li>Place on <strong>smooth glass table</strong></li>
+                    <li><strong>Remove phone case</strong> completely</li>
+                    <li>Ensure phone is <strong>perfectly balanced</strong></li>
+                    <li>Tap IGNITE and <strong>don't touch</strong> the device</li>
+                </ol>
+                <p class="warning" style="color: var(--accent); font-weight: bold;">⚠️ Samsung A16 optimized pattern. Results vary by surface.</p>
+            </div>
+
+            <div class="info-card general-instructions" style="display: none;">
+                <p>Place your device on a <strong>smooth, flat surface</strong> (like glass) for optimal vibration results.</p>
             </div>
         </section>
     </main>
 
     <footer class="footer">
-        <p>&copy; 2026 VORTEX LABS. v1.2.2 Build</p>
+        <p>&copy; 2026 VORTEX LABS. v1.3.0 A16 Build</p>
     </footer>
 
     <script src="script.js"></script>
