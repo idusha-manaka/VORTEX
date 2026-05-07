@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', () => {
         continuous: [10000],
         pulse: [100, 50, 100, 50, 100, 50, 100, 50],
         vortex: [200, 100, 150, 80, 100, 50, 50, 30, 20, 10, 50, 100],
-        stand: [20, 50, 20, 50, 20, 50, 20, 50] // Micro-vibrations for stability
+        stand: [20, 50, 20, 50, 20, 50, 20, 50],
+        turbo: [500, 100, 10, 10, 10, 10, 500, 100, 10, 10, 10, 10] // High impact bursts
     };
 
     // Mode Selection Logic
