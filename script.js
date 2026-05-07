@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let vibrationInterval = null;
 
     const patterns = {
-        continuous: [10000],
+        continuous: [1000], // Loop this every second
         pulse: [100, 50, 100, 50, 100, 50, 100, 50],
         vortex: [200, 100, 150, 80, 100, 50, 50, 30, 20, 10, 50, 100],
         stand: [20, 50, 20, 50, 20, 50, 20, 50],
@@ -65,10 +65,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
         executeVibration();
         
-        // Loop for patterns that are short
-        if (currentMode !== 'continuous') {
-            vibrationInterval = setInterval(executeVibration, 1000);
-        }
+        // Loop for all patterns to ensure they don't stop prematurely
+        const loopInterval = currentMode === 'continuous' ? 1000 : 2000;
+        vibrationInterval = setInterval(executeVibration, loopInterval);
     }
 
     function stopVibration() {
