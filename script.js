@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
         pulse: [100, 50, 100, 50, 100, 50, 100, 50],
         vortex: [200, 100, 150, 80, 100, 50, 50, 30, 20, 10, 50, 100],
         stand: [20, 50, 20, 50, 20, 50, 20, 50],
-        turbo: [500, 100, 10, 10, 10, 10, 500, 100, 10, 10, 10, 10] // High impact bursts
+        turbo: [500, 100, 10, 10, 10, 10, 500, 100, 10, 10, 10, 10], // High impact bursts
+        resonance: [50, 50, 100, 100, 150, 150, 200, 200, 150, 150, 100, 100, 50, 50] // Sweeping frequency
     };
 
     // Mode Selection Logic

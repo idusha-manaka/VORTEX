@@ -1,4 +1,4 @@
-const CACHE_NAME = 'vortex-v1.1.1';
+const CACHE_NAME = 'vortex-v1.2.0';
 const ASSETS = [
   './',
   './index.html',
