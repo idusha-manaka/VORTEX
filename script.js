@@ -82,13 +82,14 @@ document.addEventListener('DOMContentLoaded', () => {
         400, 25, 350, 20, 400, 25,
         300, 20, 400, 25,
     ];
-    // RIGHT (CW) — Resonance Sweep Pattern
-    // Uses a mix of frequencies to find the drift-point of the hardware.
+    // RIGHT (CW) — High-Torque Pivot Pattern
+    // Designed for bottom-mounted motors (like A16). 
+    // Uses a "Reverse Kick" strategy: quick double-tap then long slide.
     const tilespinPatternRight = [
-        10, 20, 10, 20, 10, 20, 30, 50,  // High frequency micro-taps
-        40, 10, 40, 10, 40, 10, 100, 50, // Medium "kick" pulses
-        15, 15, 15, 15, 15, 15, 80, 20,  // Sharp staccato
-        200, 100, 10, 10, 10, 10         // Decelerating burst
+        15, 10, 15, 450, 
+        15, 10, 15, 450,
+        15, 10, 15, 450,
+        30, 20, 30, 20, 30, 20, 100, 100
     ];
     const tilespinPattern = tilespinPatternLeft; // default
 
