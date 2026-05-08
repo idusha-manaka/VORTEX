@@ -82,11 +82,13 @@ document.addEventListener('DOMContentLoaded', () => {
         400, 25, 350, 20, 400, 25,
         300, 20, 400, 25,
     ];
-    // RIGHT (CW) — short aggressive bursts to counteract natural motor spin
+    // RIGHT (CW) — Resonance Sweep Pattern
+    // Uses a mix of frequencies to find the drift-point of the hardware.
     const tilespinPatternRight = [
-        30, 15, 30, 15, 30, 15, 200, 30,
-        30, 15, 30, 15, 30, 15, 200, 30,
-        50, 50, 150, 20
+        10, 20, 10, 20, 10, 20, 30, 50,  // High frequency micro-taps
+        40, 10, 40, 10, 40, 10, 100, 50, // Medium "kick" pulses
+        15, 15, 15, 15, 15, 15, 80, 20,  // Sharp staccato
+        200, 100, 10, 10, 10, 10         // Decelerating burst
     ];
     const tilespinPattern = tilespinPatternLeft; // default
 
@@ -110,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         vortex:    [200,100,150,80,100,50,50,30,20,10,50,100],
         turbo:     [500,100,10,10,10,10,500,100,10,10,10,10],
         resonance: [50,50,100,100,150,150,200,200,150,150,100,100,50,50],
+        calibration: [10, 100, 20, 100, 30, 100, 40, 100, 50, 100, 60, 100, 70, 100, 80, 100]
     };
 
     // ── DIRECTION TOGGLE (TILE SPIN) ──────────────────────────────────────────
@@ -231,6 +234,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (currentMode === 'walker')     return 1200;
         if (currentMode === 'cycloramic') return 1500;
         if (currentMode === 'continuous') return 1000;
+        if (currentMode === 'calibration') return 2000;
         return 2000;
     }
 
