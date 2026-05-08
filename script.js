@@ -82,14 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
         400, 25, 350, 20, 400, 25,
         300, 20, 400, 25,
     ];
-    // RIGHT (CW) — High-Torque Pivot Pattern
-    // Designed for bottom-mounted motors (like A16). 
-    // Uses a "Reverse Kick" strategy: quick double-tap then long slide.
+    // RIGHT (CW) — Turbo-Strobe Pattern (High Speed)
+    // Removed long gaps to maintain momentum and force a direction shift.
     const tilespinPatternRight = [
-        15, 10, 15, 450, 
-        15, 10, 15, 450,
-        15, 10, 15, 450,
-        30, 20, 30, 20, 30, 20, 100, 100
+        20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 
+        20, 10, 20, 10, 20, 10, 20, 10, 20, 50,
+        15, 5, 15, 5, 15, 5, 15, 5, 15, 5, 100
     ];
     const tilespinPattern = tilespinPatternLeft; // default
 
