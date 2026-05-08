@@ -71,7 +71,11 @@
 
             <!-- TILE SPIN Instructions (default) -->
             <div class="info-card tilespin-instructions" style="display:block;">
-                <h3>🌀 Tile Spin Mode — A16 CCW Optimized</h3>
+                <h3>🌀 Tile Spin Mode — A16 Optimized</h3>
+                <div class="direction-toggle">
+                    <button class="dir-btn active" data-dir="left">↺ LEFT (CCW)</button>
+                    <button class="dir-btn" data-dir="right">↻ RIGHT (CW)</button>
+                </div>
                 <ol style="text-align:left; margin:1rem 0; padding-left:1.5rem;">
                     <li>Phone ගේ Cover <strong>ගලවන්න</strong></li>
                     <li>Phone <strong>flat</strong> තියන්න (screen up)</li>
@@ -79,7 +83,7 @@
                     <li>Tile/Glass surface <strong>ලස්සනට smooth</strong> ඕනෙ</li>
                     <li>IGNITE කරලා phone <strong>touch කරන්නෙ නැතිව</strong> බලන්න</li>
                 </ol>
-                <p style="color:var(--primary); font-weight:bold; font-size:0.8rem;">💡 Phone naturally goes LEFT? Perfect! This mode amplifies that.</p>
+                <p id="spinHint" style="color:var(--primary); font-weight:bold; font-size:0.8rem;">💡 Phone naturally goes LEFT? Perfect! This mode amplifies that.</p>
             </div>
 
             <div class="info-card walker-panel" style="display:none;">

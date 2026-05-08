@@ -462,14 +462,18 @@ header {
 .mode-btn { white-space: nowrap; }
 
 /* ── MASSAGE GRID ────────────────────────────────────────────────── */
-.massage-grid {
+.massage-grid, .direction-toggle {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 0.6rem;
     margin: 0.5rem 0;
 }
 
-.massage-btn {
+.direction-toggle {
+    margin-bottom: 1.5rem;
+}
+
+.massage-btn, .dir-btn {
     background: var(--glass);
     border: 1px solid var(--glass-border);
     border-radius: 12px;
@@ -484,11 +488,11 @@ header {
     line-height: 1.4;
 }
 
-.massage-btn:active {
+.massage-btn:active, .dir-btn:active {
     transform: scale(0.95);
 }
 
-.massage-btn.active {
+.massage-btn.active, .dir-btn.active {
     background: rgba(0, 242, 255, 0.12);
     border-color: var(--primary);
     color: var(--primary);

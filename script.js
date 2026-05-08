@@ -57,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let walkerDirection = 'forward';
     let massageType = 'neck';
     let vibrationInterval = null;
+    let tilespinDirection = 'left'; // 'left' = CCW, 'right' = CW
 
     // ── MASSAGE PATTERNS ──────────────────────────────────────────────────────
     const massagePatterns = {
@@ -74,12 +75,20 @@ document.addEventListener('DOMContentLoaded', () => {
         heartbeat:  [80, 80, 150, 500, 80, 80, 150, 500, 80, 80, 150, 500],
     };
 
-    // ── TILE SPIN PATTERN ─────────────────────────────────────────────────────
-    const tilespinPattern = [
+    // ── TILE SPIN PATTERNS ────────────────────────────────────────────────────
+    // LEFT (CCW) — long burst, short gap → motor pulls left
+    const tilespinPatternLeft = [
         400, 25, 400, 25, 350, 20,
         400, 25, 350, 20, 400, 25,
         300, 20, 400, 25,
     ];
+    // RIGHT (CW) — short burst, long gap then heavy hit → motor pulls right
+    const tilespinPatternRight = [
+        25, 400, 25, 400, 20, 350,
+        25, 400, 20, 350, 25, 400,
+        20, 300, 25, 400,
+    ];
+    const tilespinPattern = tilespinPatternLeft; // default
 
     // ── WALKER PATTERNS ───────────────────────────────────────────────────────
     const walkerPatterns = {
@@ -91,7 +100,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const patterns = {
-        tilespin:  tilespinPattern,
+        tilespin:  tilespinPatternLeft,
         massage:   massagePatterns.neck,
         walker:    walkerPatterns.forward,
         cycloramic:[150,50,100,30,150,50,80,30,150,50,100,30,150,50,80,30,
@@ -102,6 +111,33 @@ document.addEventListener('DOMContentLoaded', () => {
         turbo:     [500,100,10,10,10,10,500,100,10,10,10,10],
         resonance: [50,50,100,100,150,150,200,200,150,150,100,100,50,50],
     };
+
+    // ── DIRECTION TOGGLE (TILE SPIN) ──────────────────────────────────────────
+    const dirBtns = document.querySelectorAll('.dir-btn');
+    const spinHint = document.getElementById('spinHint');
+    dirBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            dirBtns.forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            tilespinDirection = btn.dataset.dir;
+            patterns.tilespin = tilespinDirection === 'right' ? tilespinPatternRight : tilespinPatternLeft;
+
+            if (spinHint) {
+                spinHint.textContent = tilespinDirection === 'right'
+                    ? '💡 Phone naturally goes RIGHT? Perfect! This mode amplifies that.'
+                    : '💡 Phone naturally goes LEFT? Perfect! This mode amplifies that.';
+            }
+
+            if (isActive && currentMode === 'tilespin') {
+                navigator.vibrate(0);
+                clearInterval(vibrationInterval);
+                setTimeout(() => {
+                    executeVibration();
+                    vibrationInterval = setInterval(executeVibration, 2500);
+                }, 100);
+            }
+        });
+    });
 
     // ── MASSAGE SUB-BUTTONS ───────────────────────────────────────────────────
     const massageBtns = document.querySelectorAll('.massage-btn');
