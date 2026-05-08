@@ -15,13 +15,12 @@ document.addEventListener('DOMContentLoaded', () => {
         navigator.serviceWorker.register('./sw.js').then((reg) => {
             console.log('Vortex SW Registered');
 
-            // Check for new SW waiting
+            // Auto-update: When a new worker is found, tell it to skip waiting immediately
             reg.addEventListener('updatefound', () => {
                 const newWorker = reg.installing;
                 newWorker.addEventListener('statechange', () => {
                     if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
-                        // New version is ready → show toast
-                        showUpdateToast();
+                        newWorker.postMessage('SKIP_WAITING');
                     }
                 });
             });
@@ -35,21 +34,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function showUpdateToast() {
-        const toast = document.createElement('div');
-        toast.id = 'update-toast';
-        toast.innerHTML = `
-            <span>🚀 New version available!</span>
-            <button id="update-now-btn">UPDATE NOW</button>
-        `;
-        document.body.appendChild(toast);
-
-        document.getElementById('update-now-btn').addEventListener('click', () => {
-            navigator.serviceWorker.controller?.postMessage('SKIP_WAITING');
-            toast.remove();
-        });
-
-        // Auto-dismiss after 10 seconds
-        setTimeout(() => toast?.remove(), 10000);
+        // Removed for full automation
     }
 
     let isActive = false;
