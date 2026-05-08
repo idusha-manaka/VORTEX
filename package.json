@@ -1,6 +1,6 @@
 {
   "name": "vortex-vibrator",
-  "version": "1.9.5",
+  "version": "2.0.0",
   "description": "Phone rotation experiment via vibration",
   "main": "index.html",
   "scripts": {
