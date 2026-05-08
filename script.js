@@ -82,11 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
         400, 25, 350, 20, 400, 25,
         300, 20, 400, 25,
     ];
-    // RIGHT (CW) — short burst, long gap then heavy hit → motor pulls right
+    // RIGHT (CW) — short aggressive bursts to counteract natural motor spin
     const tilespinPatternRight = [
-        25, 400, 25, 400, 20, 350,
-        25, 400, 20, 350, 25, 400,
-        20, 300, 25, 400,
+        30, 15, 30, 15, 30, 15, 200, 30,
+        30, 15, 30, 15, 30, 15, 200, 30,
+        50, 50, 150, 20
     ];
     const tilespinPattern = tilespinPatternLeft; // default
 
