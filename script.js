@@ -82,12 +82,11 @@ document.addEventListener('DOMContentLoaded', () => {
         400, 25, 350, 20, 400, 25,
         300, 20, 400, 25,
     ];
-    // RIGHT (CW) — Turbo-Strobe Pattern (High Speed)
-    // Removed long gaps to maintain momentum and force a direction shift.
+    // RIGHT (CW) — Resonance Sweep Engine
+    // Gradually cycles through different frequencies to find the phone's natural spin-point.
     const tilespinPatternRight = [
-        20, 10, 20, 10, 20, 10, 20, 10, 20, 10, 
-        20, 10, 20, 10, 20, 10, 20, 10, 20, 50,
-        15, 5, 15, 5, 15, 5, 15, 5, 15, 5, 100
+        10, 10, 10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15, 18, 18, 18, 18, 
+        20, 20, 20, 20, 25, 25, 25, 25, 30, 30, 35, 35, 40, 40, 50, 50, 100, 50
     ];
     const tilespinPattern = tilespinPatternLeft; // default
 
@@ -104,8 +103,10 @@ document.addEventListener('DOMContentLoaded', () => {
         tilespin:  tilespinPatternLeft,
         massage:   massagePatterns.neck,
         walker:    walkerPatterns.forward,
-        cycloramic:[150,50,100,30,150,50,80,30,150,50,100,30,150,50,80,30,
-                    150,50,100,30,150,50,80,30,150,50,100,30,150,50,80,30],
+        cycloramic:[
+            10, 10, 10, 10, 12, 12, 12, 12, 15, 15, 15, 15, 18, 18, 18, 18, 20, 20, 20, 20,
+            25, 25, 25, 25, 30, 30, 30, 30, 40, 40, 40, 40, 50, 50, 50, 50, 100, 100
+        ],
         continuous:[1000],
         pulse:     [100,50,100,50,100,50,100,50],
         vortex:    [200,100,150,80,100,50,50,30,20,10,50,100],
